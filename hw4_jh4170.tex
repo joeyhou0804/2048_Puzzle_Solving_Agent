@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+
+\title{COMS 4701 - Homework 4 - Conceptual}
+\author
+{
+Joey, Hou
+\and jh4170
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1}
+\subsection*{(a)}
+(Here, we suppose that the grid are made of squares and the side length is 1.)\\
+If Euclidean distance = 1, there are 4 neighbors: H, L, N, R. They are all included in the 5 nearest neighbors of M.\\
+If Euclidean distance = $\sqrt{2}$, there are 4 neighbors: G, I, Q, S. Since we are only looking for the 5 nearest neighbors, only G will be included (because of the alphabetical order).\\\\
+Therefore, the 5 nearest neighbors of example M are: H, L, N, R, and G.
+
+\subsection*{(b)}
+Since G, H, and L are positive examples, and N and R are negative examples, we have 3 positive examples and 2 negative examples. Therefore, M is in the class of positive examples.
+
+\subsection*{(c)}
+\subsubsection*{Consequences:}
+The class of M now depends on its weight and other neighbors' weight. If a class (for example, positive) has examples that have similar weight as M's in the k neighbors (combining the physical distance of examples in the grid), M will be more likely to be classified to be into that class.\\
+The k neighbors could be physically far away from M in the grid because now the Euclidean distance is calculated based on three instances, including the mass.
+\subsubsection*{Problem:}
+The method now takes longer time to run because the time complexity has increased due to the new feature.\\
+The standard deviation of mass is 100, which is significantly larger than the stdev of other two features ($x_{1}$ and $x_{2}$, suppose the length of each  square in the grid is 1). This means that mass would significantly change the decision when deciding the k neighbors for example M.
+
+\subsection*{(d)}
+We can make use of the reciprocal of the example's Euclidean distance to example M. This is because when an example is closer to M, its distance is smaller and the reciprocal is larger. If we use it as a weight of KNN, it can make the nearer neighbors contribute more.\\\\
+Suppose the coordinates of example M are $x_{M1}$ and $x_{M2}$. The Euclidean distance of an example to example M is:
+$$d=\sqrt{(x_{1}-x_{M1})^{2}+(x_{2}-x_{M2})^{2}}$$
+After looking for $k$ nearest examples: $\{ X_{1},X_{2},...,X_{k}\}$, we count for the number of examples for both positive and negative classes with the weight applied. That is:
+$$Positive_{weighted}=\sum ^{k}_{i=1,X_{i}=positive}\frac{1}{d_{i}}$$
+$$Negative_{weighted}=\sum ^{k}_{i=1,X_{i}=negative}\frac{1}{d_{i}}$$
+If, for example, $Positive_{weighted}>Negative_{weighted}$, we classify example M into the class of positive.
+
+
+\newpage
+\section*{Question 2}
+\subsection*{(a)}
+The formula of entropy is:
+$$Entropy(S)=-p_{+}\log _{2}p_{+}-p_{-}\log _{2}p_{-}$$
+Since we are building a decision tree for the label ``Love it", we have two types of examples: Yes and No. There are 3 Yes' and 3 No's, so:
+$$p_{+}=p(Yes)=3/6=0.5$$
+$$p_{-}=p(No)=3/6=0.5$$
+Therefore, we have:
+$$Entropy(S)=-0.5\log _{2}0.5-0.5\log _{2}0.5=1$$
+which means the entropy of the data is 1.
+
+\subsection*{(b)}
+For ``Frosting color":\\\\
+(1) For ``pink", we have 2 Yes' and 0 No's, so the entropy is:
+$$Entropy(2,0)=-1\log _{2}1=0$$
+(2) For ``yellow", we have 1 Yes and 1 No, so the entropy is:
+$$Entropy(1,1)=-0.5\log _{2}0.5-0.5\log _{2}0.5=1$$
+(3) For ``blue", we have 0 Yes' and 2 No's, so the entropy is:
+$$Entropy(0,2)=-1\log _{2}1=0$$
+(4) The total entropy should be 1 (as in part (a)).\\\\
+Therefore, the information gain is:
+$$1-\frac{1}{3}\times 0-\frac{1}{3}\times 1-\frac{1}{3}\times 0=\frac{2}{3}=0.667$$
+For ``Cake Flavor":\\\\
+(1) For ``lemon", we have 2 Yes' and 1 No, so the entropy is:
+$$Entropy(2,1)=-\frac{2}{3}\log _{2}\frac{2}{3}-\frac{1}{3}\log _{2}\frac{1}{3}=0.918$$
+(2) For ``rose", we have 1 Yes and 2 No's, so the entropy is:
+$$Entropy(1,2)=-\frac{1}{3}\log _{2}\frac{1}{3}-\frac{2}{3}\log _{2}\frac{2}{3}=0.918$$
+(3) The total entropy should be 1 (as in part (a)).\\\\
+Therefore, the information gain is:
+$$1-\frac{1}{2}\times 0.918-\frac{1}{2}\times 0.918=0.082$$
+Since $0.667>0.082$, we choose ``Frosting color" as the spliting attribute. That is, ``Frosting color" will be chosen at the root.
+
+\subsection*{(c)}
+The decision tree, picking ``Frosting color" at root as explained in part (b), looks like:\\\\
+\includegraphics[width=0.5\textwidth]{2-1.png}\\
+
+\subsection*{(d)}
+First, we calculate the information gain of the attribute ``Sample".\\\\
+(1) For ``1", ``2", and ``3", they each have 1 Yes, so the entropy is:
+$$Entropy(1,0)=-1\log _{2}1=0$$
+(2) For ``4", ``5", and ``6", they each have 1 No, so the entropy is:
+$$Entropy(0,1)=-1\log _{2}1=0$$
+(3) The total entropy should be 1 (as in part (a)).\\\\
+Therefore, the information gain is:
+$$1-6\times \frac{1}{6}\times 0=1$$
+Since this is the biggest information gain among all three features, we pick this at the root. All the nodes are pure now, so we don't even need other attributes.\\\\
+The decision tree, picking ``Sample" at root as explained in part (d), looks like:\\\\
+\includegraphics[width=1\textwidth]{2-2.png}\\
+
+   
+\end{document}
